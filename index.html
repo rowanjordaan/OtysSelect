@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Otys Select test</title>
+        <link href="otysselect.css" type="text/css" rel="stylesheet" />
+        <script src="http://www.yourit.nl/webte1/_javascript_global/jquery.js"></script>
+    </head>
+
+    <body>
+        <div class="hookWord actHWord actHCrit"><label for="hook_multisel_mc_regio">Locatie</label></div>
+            <div class="hookInput actHInput actHICrit">
+            <select name="matchcriteria_regio[]" id="hook_multisel_mc_regio" multiple="multiple" size="5">
+            <option label="---" value="0">---</option>
+            <option label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
+            <option label="Groningen" value="124482">Groningen</option>
+            <option label="Hengelo" value="124483">Hengelo</option>
+            <option label="Venlo" value="124484">Venlo</option>
+
+            </select>
+        </div>
+        
+        <script src="otysselect.js"></script>
+
+        <script>
+            $('select').otysselect();
+        </script>
+    </body>
+</html>

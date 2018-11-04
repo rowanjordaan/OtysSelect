@@ -1,0 +1,60 @@
+.otysselect{
+    position: relative;
+    display: inline-block;
+    width: 250px;
+}
+    .otysselect *{
+        box-sizing: border-box;
+    }
+
+    .otysselect select{
+        display: none;
+    }
+
+    .otysselect .os-selected{
+        height: 40px;
+        width: 100%;
+        border: 1px solid #dadada;
+        position: relative;
+    }
+        .otysselect .os-value{
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            padding: 0 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+            .otysselect .os-value .remove:after{
+                content: 'x';
+                display: inline-block;
+                background: red;
+                padding: 5px;
+                border-radius: 5px;
+            }
+
+    .otysselect .os-collapse{
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background: #000;
+        color: #FFF;
+        width: 100%;
+        display: none;
+        z-index: 99;
+    } .otysselect.open .os-collapse{
+        display: block;
+    }
+        .otysselect .os-search input{
+            width: 100%;
+        }
+
+        .otysselect .os-option{
+            padding: 0 15px;
+            cursor: pointer;
+        } .otysselect .os-option:hover{
+            background: #333;
+        }
