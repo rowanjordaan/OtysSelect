@@ -2,19 +2,34 @@
     $.fn.otysselect = function(options){
         var _this = this;
         var _$this = $(_this);
-
+        var userLang = navigator.language || navigator.userLanguage; 
         var output = { settings : {} }; // Return object for plugin
 
         // Extend default settings with options
         output.settings = $.extend({
              onInit: null, // Called on initialize (expects function)
              search: true, // Enable search
+             MultiClearOptionsIfFalse: true, // Clear all options when value selected is zero with a mutliselect
+             MultiRemoveFalseOptions: true, // Removes options which return false at a multiselect
+             showLabels: false, // Appends labels in the input so you can see which options are selected with
+             closeOnSelect: false, // Wheter to close the select dropdown when selecting a option
+             forceSingleSelect: false, // Force the select to be a single select
         });
 
         var _execute = function(select, callback){
             var $selectElement = $(select);
+
+            if(output.settings.forceSingleSelect){
+                $selectElement.removeAttr('multiple');
+            }
+
             var $selectElemented = ($selectElement.find('option[selected]').length) ? $selectElement.find('option[selected]') : $selectElement.find('option').first();
             var multiple = ($selectElement.attr('multiple')) ? true : false;
+
+            if(multiple && output.settings.MultiRemoveFalseOptions){
+                $selectElement.find('option[value="0"], option[value="null"], option[value=""]').remove();
+            }
+
             var placeholder = $selectElement.parents('label').text();
             console.log(placeholder);
 
@@ -78,35 +93,50 @@
             */
             /* Opening select */
             $otysselect.on('click', '.os-selected', function(e){
-                _close($('.otysselect').not($otysselect));
+                if(!$(e.target).hasClass('os-remove')){
 
-                $otysselect.toggleClass('open');
-                $otysselect.find('.os-search input').focus();
+                    _close($('.otysselect').not($otysselect));
+
+                    $otysselect.toggleClass('open');
+                    $otysselect.find('.os-search input').focus();
+                }
             });
 
             /* 
-            * Choosing a option 
+            * Select a option 
             */
             if(multiselect){
                 $otysselect.on('click', '.os-option', function(e){
                     var value = $(this).attr('data-value');
                     var label = $(this).attr('data-label');
 
-                    // Select selected option
-                    var $option = $otysselect.find('select option[value="'+ value +'"]');
-
-                    if($option.attr('selected')){
-                        $option.removeAttr('selected');
-                        $otysselect.find('.os-value span[data-value="'+ value +'"]').remove();
+                    // If the value is a null value clear all options
+                    if((value == 0 || value == false || value == '' || value == null) && output.settings.MultiClearOptionsIfFalse){
+                        $otysselect.find('.os-value span').remove();
+                        $otysselect.find('select option').removeAttr('selected');
+                        $otysselect.find('.os-option').removeAttr('selected');
                     }else{
-                        $option.attr('selected', 'selected');
+                        // Select selected option
+                        var $option = $otysselect.find('select option[value="'+ value +'"]');
 
-                        // Display selected options
-                        $otysselect.find('.os-value').append('<span class="os-label" data-label="'+ label +'" data-value="'+ value +'">'+ $(this).text() +'<span class="remove"></span></span>');
+                        if($option.attr('selected')){
+                            $option.removeAttr('selected');
+                            $otysselect.find('.os-value span[data-value="'+ value +'"]').remove();
+                            $otysselect.find('.os-option[data-value="'+ value +'"]').removeAttr('selected');
+                        }else{
+                            $(this).attr('selected', 'selelected');
+                            $option.attr('selected', 'selected');
+
+                            if(output.settings.showLabels){
+                                // Display selected options
+                                $otysselect.find('.os-value').append('<span class="os-label" data-label="'+ label +'" data-value="'+ value +'">'+ $(this).text() +'<span class="os-remove"></span></span>');
+                            }
+                        }
                     }
 
-
-                    _close($otysselect);
+                    if(output.settings.closeOnSelect){
+                        _close($otysselect);
+                    }
                 });
             }else{
                 $otysselect.on('click', '.os-option', function(e){
@@ -116,6 +146,7 @@
                     $otysselect.find('.os-option').removeAttr('selected'); // Remove visible option
                     $otysselect.find('select option').removeAttr('selected'); // Remove actual select option
                     $otysselect.find('select option[value="'+ value +'"]').attr('selected', 'selected');
+                    $(this).attr('selected', 'selelected');
 
                     $otysselect.find('.os-value').attr('data-value', value).text(text);
 
@@ -126,15 +157,14 @@
             /* 
             * Delete a option when clicking selected item
             */
-            $otysselect.on('click', '.os-label', function(e){
-                var value = $(this).attr('data-value');
+            $otysselect.on('click', '.os-label .os-remove', function(e){
+                var value = $(this).parent().attr('data-value');
                 $otysselect.find('select option[value="'+ value +'"]').removeAttr('selected');
-                $(this).remove();
+                $otysselect.find('.os-option[data-value="'+ value +'"]').removeAttr('selected');
+                $(this).parent().remove();
             });
 
             $otysselect.on('keyup', '.os-search input', function(){
-                console.log($(this).val());
-
                 $otysselect.find('.os-option').show();
 
                 if($(this).val().length){

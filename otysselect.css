@@ -16,6 +16,7 @@
         width: 100%;
         border: 1px solid #dadada;
         position: relative;
+        overflow: hidden;
     }
         .otysselect .os-value{
             position: absolute;
@@ -24,16 +25,26 @@
             transform: translateY(-50%);
             width: 100%;
             padding: 0 15px;
-            overflow: hidden;
             white-space: nowrap;
-            text-overflow: ellipsis;
         }
-            .otysselect .os-value .remove:after{
-                content: 'x';
-                display: inline-block;
+            .otysselect .os-label{
+                position: relative;
+                padding: 0 30px 0 0;
+            }
+
+            .otysselect .os-label .os-remove{
+                text-align: center;
+                cursor: pointer;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
                 background: red;
-                padding: 5px;
-                border-radius: 5px;
+            }
+            .otysselect .os-value .os-remove:after{
+                
             }
 
     .otysselect .os-collapse{
@@ -57,4 +68,6 @@
             cursor: pointer;
         } .otysselect .os-option:hover{
             background: #333;
+        } .otysselect .os-option[selected]{
+            background: #dedede;
         }
