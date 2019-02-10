@@ -10,25 +10,15 @@
              onInit: null, // Called on initialize (expects function)
              search: true, // Enable search
              MultiClearOptionsIfFalse: true, // Clear all options when value selected is zero with a mutliselect
-             MultiRemoveFalseOptions: true, // Removes options which return false at a multiselect
-             showLabels: false, // Appends labels in the input so you can see which options are selected with
+             showLabels: true, // Appends labels in the input so you can see which options are selected with
              closeOnSelect: false, // Wheter to close the select dropdown when selecting a option
-             forceSingleSelect: false, // Force the select to be a single select
         });
 
+        // Define execute function (contains all working logic)
         var _execute = function(select, callback){
             var $selectElement = $(select);
-
-            if(output.settings.forceSingleSelect){
-                $selectElement.removeAttr('multiple');
-            }
-
             var $selectElemented = ($selectElement.find('option[selected]').length) ? $selectElement.find('option[selected]') : $selectElement.find('option').first();
             var multiple = ($selectElement.attr('multiple')) ? true : false;
-
-            if(multiple && output.settings.MultiRemoveFalseOptions){
-                $selectElement.find('option[value="0"], option[value="null"], option[value=""]').remove();
-            }
 
             var placeholder = $selectElement.parents('label').text();
             console.log(placeholder);
@@ -43,7 +33,7 @@
 
                 $html += '<div class="os-collapse">';
                     if(output.settings.search){
-                        $html += '<div class="os-search"><input type="text" class="os-searchfield" /></div>';
+                        $html += '<div class="os-search"><input type="text" class="os-searchfield" placeholder="Filter opties" /></div>';
                     }
 
                     $html += '<div class="os-options">';
@@ -56,16 +46,18 @@
 
             $selectElement.parent().append($html);
 
-            // Run _execute callback if set
+            // Run _execute callback if set and is a function
             if ( $.isFunction( callback ) ) {
                 callback( result );
             }
         };
 
+        // Define close function (closes option menu)
         var _close = function($otysselect){
             $otysselect.removeClass('open');
         };
 
+        // Define initialize function (runs automaticly on init)
         var __initialize = function($selectElement){
             var data = _execute($selectElement);
 

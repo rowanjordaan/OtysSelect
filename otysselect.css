@@ -3,71 +3,111 @@
     display: inline-block;
     width: 250px;
 }
-    .otysselect *{
+    .otysselect *,
+    .otysselect *:after,
+    .otysselect *:before{
         box-sizing: border-box;
+        transition: color .1s ease-in-out, background .1s ease-in-out, transform .1s ease-in-out;
+        outline: 0;
     }
-
     .otysselect select{
-        display: none;
+        /*display: none;*/
     }
 
     .otysselect .os-selected{
-        height: 40px;
+        height: 42px; /* height of otysselect */
         width: 100%;
-        border: 1px solid #dadada;
+        border: 1px solid #efefef;
+        background: #FFF;
         position: relative;
         overflow: hidden;
     }
         .otysselect .os-value{
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
+            position: relative;
             width: 100%;
-            padding: 0 15px;
+            padding: 0px 10px;
             white-space: nowrap;
+            display: flex;
+            height: 100%;
+            align-items: center;
         }
             .otysselect .os-label{
                 position: relative;
-                padding: 0 30px 0 0;
+                padding: 0 25px 0 5px;
+                margin: 0 5px 0 0;
+                background: #efefef;
+                line-height: 26px; /* height of the value labels */
+                display: inline-block;
             }
 
             .otysselect .os-label .os-remove{
                 text-align: center;
                 cursor: pointer;
-                width: 20px;
-                height: 20px;
+                width: 16px;
+                height: 16px;
                 position: absolute;
                 right: 5px;
                 top: 50%;
                 transform: translateY(-50%);
-                background: red;
-            }
+                background: #ff7777;
+            } .otysselect .os-label .os-remove:hover{
+                background: #f34545;
+            } 
             .otysselect .os-value .os-remove:after{
-                
+                content: '';
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%) translateX(-50%) rotate(-45deg);
+                width: 10px;
+                height: 2px;
+                background: #FFF;
+            } .otysselect .os-value .os-remove:hover:after{
+                transform: translateY(-50%) translateX(-50%) rotate(0deg);
+            }
+            .otysselect .os-value .os-remove:before{
+                content: '';
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%) translateX(-50%) rotate(45deg);
+                width: 10px;
+                height: 2px;
+                background: #FFF;
+            } .otysselect .os-value .os-remove:hover:before{
+                transform: translateY(-50%) translateX(-50%) rotate(0deg);
             }
 
     .otysselect .os-collapse{
         position: absolute;
         left: 0;
         top: 100%;
-        background: #000;
-        color: #FFF;
+        background: #fff;
+        color: #000;
         width: 100%;
         display: none;
         z-index: 99;
+        box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
     } .otysselect.open .os-collapse{
         display: block;
     }
-        .otysselect .os-search input{
-            width: 100%;
+        .otysselect .os-search{
+            padding: 5px;
+            background:#fff;
         }
+            .otysselect .os-search input{
+                width: 100%;
+                line-height: 30px;
+                border: 1px solid #efefef;
+                padding: 0 10px;
+            }
 
         .otysselect .os-option{
-            padding: 0 15px;
+            padding: 10px 15px;
             cursor: pointer;
         } .otysselect .os-option:hover{
-            background: #333;
-        } .otysselect .os-option[selected]{
             background: #dedede;
+        } .otysselect .os-option[selected]{
+            background: #5b97f5;
+            color: #FFF;
+        } .otysselect .os-option[selected]:hover{
+            background: #4d8df3;
         }
