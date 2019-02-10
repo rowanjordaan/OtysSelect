@@ -21,7 +21,7 @@
             var multiple = ($selectElement.attr('multiple')) ? true : false;
 
             var placeholder = $selectElement.parents('label').text();
-            console.log(placeholder);
+            console.log('placeholder: '+ placeholder);
 
             // Wrap current select
             $selectElement.wrap('<div class="otysselect" multiple="'+ multiple +'"></div>');
@@ -29,7 +29,21 @@
             // Generate HTML
             var $html = '';
             $html += '<div class="os-select">';
-                $html += '<div class="os-selected" data-value="'+ $selectElemented.attr('value') +'"><div class="os-value"><span class="os-placeholder">'+ placeholder +'</span></div></div>';
+                $html += '<div class="os-selected" data-value="'+ $selectElemented.attr('value') +'">\
+                    <div class="os-value">';
+
+                if(output.settings.showLabels){
+                    // Display selected options
+                    $selectElement.find('option').each(function(i, o){
+                        if($(this).attr('selected')){
+                            $html += '<span class="os-label" data-label="'+ $(o).attr('label') +'" data-value="'+ $(o).attr('value') +'">'+ $(o).text() +'<span class="os-remove"></span></span>';
+                        }
+                    });
+                }
+
+                $html += '<span class="os-placeholder">'+ placeholder +'</span>\
+                    </div>\
+                </div>';
 
                 $html += '<div class="os-collapse">';
                     if(output.settings.search){
@@ -37,8 +51,19 @@
                     }
 
                     $html += '<div class="os-options">';
-                        $selectElement.find('option').each(function(i, e){
-                            $html += '<div class="os-option" data-search="'+ $(this).text().toLowerCase() +'" data-value="'+ $(this).attr('value') +'">'+ $(this).text() +'</div>';
+                        $selectElement.find('> option, > optgroup').each(function(i, o){
+                            if($(o).is('option')){
+                                var selected = ($(o).attr('selected') ? 'selected="selected"' : '');
+                                $html += '<div class="os-option" data-search="'+ $(o).text().toLowerCase() +'" '+ selected +' data-value="'+ $(o).attr('value') +'">'+ $(o).text() +'</div>';
+                            }else if($(o).is('optgroup')){
+                                $html += '<div class="os-optgroup"><div class="os-optgrouplabel">'+ $(o).text() + '</div>';
+                                
+                                $(o).find('option').each(function(oi, opto){
+                                    $html += '<div class="os-option" data-search="'+ $(opto).text().toLowerCase() +'" data-value="'+ $(opto).attr('value') +'">'+ $(opto).text() +'</div>';
+                                });
+
+                                $html += '</div>'; /*close os-optgroup*/
+                            }
                         });
                     $html += '</div>'; /*close os-options*/
                 $html += '</div>'; /*close os-collapse*/
@@ -86,7 +111,6 @@
             /* Opening select */
             $otysselect.on('click', '.os-selected', function(e){
                 if(!$(e.target).hasClass('os-remove')){
-
                     _close($('.otysselect').not($otysselect));
 
                     $otysselect.toggleClass('open');
