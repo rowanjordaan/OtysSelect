@@ -1,3 +1,7 @@
+html{
+    height: 100%;
+}
+
 .otysselect{
     position: relative;
     display: inline-block;
@@ -11,7 +15,7 @@
         outline: 0;
     }
     .otysselect select{
-        /*display: none;*/
+        display: none;
     }
 
     .otysselect .os-selected{
@@ -88,6 +92,9 @@
         box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
     } .otysselect.open .os-collapse{
         display: block;
+    } .otysselect.open.top .os-collapse{
+        top: initial;
+        bottom: 100%;
     }
         .otysselect .os-search{
             padding: 5px;
@@ -111,3 +118,11 @@
         } .otysselect .os-option[selected]:hover{
             background: #4d8df3;
         }
+
+        .otysselect .os-optgroup .os-optgrouplabel{
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+            .otysselect .os-optgroup .os-option{
+                padding: 10px 25px;
+            }
