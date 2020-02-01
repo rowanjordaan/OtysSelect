@@ -32,14 +32,20 @@
                 $html += '<div class="os-selected" data-value="'+ $selectElemented.attr('value') +'">\
                     <div class="os-value">';
 
+                
                 if(output.settings.showLabels){
                     // Display selected options
                     $selectElement.find('option').each(function(i, o){
                         if($(this).attr('selected')){
-                            $html += '<span class="os-label" data-label="'+ $(o).attr('label') +'" data-value="'+ $(o).attr('value') +'">'+ $(o).text() +'<span class="os-remove"></span></span>';
+                            if(multiple){
+                                $html += '<span class="os-label" data-label="'+ $(o).attr('label') +'" data-value="'+ $(o).attr('value') +'">'+ $(o).text() +'<span class="os-remove"></span></span>';
+                            }else {
+                                $html += $(o).text();
+                            }
                         }
                     });
                 }
+
 
                 $html += '<span class="os-placeholder">'+ placeholder +'</span>\
                     </div>\
@@ -52,14 +58,20 @@
 
                     $html += '<div class="os-options">';
                         $selectElement.find('> option, > optgroup').each(function(i, o){
+                            console.log($(this));
+                            
+                            /* Check if the current el is an option if not this is an optgroup */
                             if($(o).is('option')){
-                                var selected = ($(o).attr('selected') ? 'selected="selected"' : '');
-                                $html += '<div class="os-option" data-search="'+ $(o).text().toLowerCase() +'" '+ selected +' data-value="'+ $(o).attr('value') +'">'+ $(o).text() +'</div>';
+                                var $option = $(o);
+                                var selected = ($option.attr('selected') ? 'selected="selected"' : '');
+                                $html += '<div class="os-option" data-search="'+ $option.text().toLowerCase() +'" '+ selected +' data-value="'+ $option.attr('value') +'">'+ $option.text() +'</div>';
                             }else if($(o).is('optgroup')){
                                 $html += '<div class="os-optgroup"><div class="os-optgrouplabel">'+ $(o).text() + '</div>';
                                 
-                                $(o).find('option').each(function(oi, opto){
-                                    $html += '<div class="os-option" data-search="'+ $(opto).text().toLowerCase() +'" data-value="'+ $(opto).attr('value') +'">'+ $(opto).text() +'</div>';
+                                /* because an optgroup contains options fill the optgroup with options */
+                                $(o).find('option').each(function(oi, optgroupOption){
+                                    var selected = ($(optgroupOption).attr('selected') ? 'selected="selected"' : '');
+                                    $html += '<div class="os-option" data-search="'+ $(optgroupOption).text().toLowerCase() +'" '+ selected +' data-value="'+ $(optgroupOption).attr('value') +'">'+ $(optgroupOption).text() +'</div>';
                                 });
 
                                 $html += '</div>'; /*close os-optgroup*/
@@ -125,30 +137,24 @@
                 $otysselect.on('click', '.os-option', function(e){
                     var value = $(this).attr('data-value');
                     var label = $(this).attr('data-label');
+                    
+                    // Select selected option
+                    var $option = $otysselect.find('select option[value="'+ value +'"]');
 
-                    // If the value is a null value clear all options
-                    if((value == 0 || value == false || value == '' || value == null) && output.settings.MultiClearOptionsIfFalse){
-                        $otysselect.find('.os-value span').remove();
-                        $otysselect.find('select option').removeAttr('selected');
-                        $otysselect.find('.os-option').removeAttr('selected');
+                    if($option.attr('selected')){
+                        $option.removeAttr('selected');
+                        $otysselect.find('.os-value span[data-value="'+ value +'"]').remove();
+                        $otysselect.find('.os-option[data-value="'+ value +'"]').removeAttr('selected');
                     }else{
-                        // Select selected option
-                        var $option = $otysselect.find('select option[value="'+ value +'"]');
+                        $(this).attr('selected', 'selelected');
+                        $option.attr('selected', 'selected');
 
-                        if($option.attr('selected')){
-                            $option.removeAttr('selected');
-                            $otysselect.find('.os-value span[data-value="'+ value +'"]').remove();
-                            $otysselect.find('.os-option[data-value="'+ value +'"]').removeAttr('selected');
-                        }else{
-                            $(this).attr('selected', 'selelected');
-                            $option.attr('selected', 'selected');
-
-                            if(output.settings.showLabels){
-                                // Display selected options
-                                $otysselect.find('.os-value').append('<span class="os-label" data-label="'+ label +'" data-value="'+ value +'">'+ $(this).text() +'<span class="os-remove"></span></span>');
-                            }
+                        if(output.settings.showLabels){
+                            // Display selected options
+                            $otysselect.find('.os-value').append('<span class="os-label" data-label="'+ label +'" data-value="'+ value +'">'+ $(this).text() +'<span class="os-remove"></span></span>');
                         }
                     }
+                    
 
                     if(output.settings.closeOnSelect){
                         _close($otysselect);
