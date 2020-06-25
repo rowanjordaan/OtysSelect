@@ -2,9 +2,10 @@
 <html>
     <head>
         <title>Otys Select test</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
         <link href="otysselect.css" type="text/css" rel="stylesheet" />
-        <script src="http://www.yourit.nl/webte1/_javascript_global/jquery.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
         <style>
             body{
@@ -18,9 +19,9 @@
 
             label{
                 font-weight: 600;
-                margin: 0 0 20px 0;
+                margin: 0 0 5px 0;
                 display: block;
-                font-size: 16px;
+                font-size: 13px;
             }
 
             select{
@@ -38,69 +39,115 @@
     </head>
 
     <body>
-        <div class="test test1">
-            <div class="hookWord actHWord actHCrit">
-                <label for="hook_multisel_mc_regio">Default multiselect</label>
-            </div>
+        <form action="" method="GET"> 
+            <div class="test test1">
+                <div class="hookWord actHWord actHCrit">
+                    <label for="hook_multisel_mc_regio">Default multiselect</label>
+                </div>
 
-            <div class="hookInput actHInput actHICrit">
-                <select name="matchcriteria_regio[]" id="regio1" multiple="multiple" size="5">
-                    <option label="---" value="0">---</option>
-                    <option selected="selected" label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
-                    <option label="Groningen" value="124482">Groningen</option>
-                    <option label="Hengelo" value="124483">Hengelo</option>
-                    <option label="Venlo" value="124484">Venlo</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="test test2">
-            <div class="hookWord actHWord actHCrit">
-                <label for="hook_multisel_mc_regio">Multiselect with optgroup</label>
-            </div>
-
-            <div class="hookInput actHInput actHICrit">
-                <select name="matchcriteria_regio[]" id="optgroup1" multiple="multiple" size="5">
-                    <optgroup label="German Cars" len>
-                        <option selected="selected" value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </optgroup>
-
-                    <optgroup label="Steden">
-                        <option label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
+                <div class="hookInput actHInput actHICrit">
+                    <select name="match_1[]" id="regio1" multiple="multiple" size="5">
+                        <option label="---" value="0">---</option>
+                        <option selected="selected" label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
                         <option label="Groningen" value="124482">Groningen</option>
                         <option label="Hengelo" value="124483">Hengelo</option>
                         <option label="Venlo" value="124484">Venlo</option>
-                    </optgroup>
-                </select>
-            </div>
-        </div>
-
-        <div class="test test3">
-            <div class="hookWord actHWord actHCrit">
-                <label for="hook_multisel_mc_regio">Single select with optgroup</label>
+                    </select>
+                </div>
             </div>
 
-            <div class="hookInput actHInput actHICrit">
-                <select name="matchcriteria_regio[]" id="single1">
-                        <option selected="selected" value="mercedes">Mercedes</option>
+            <div class="test test2">
+                <div class="hookWord actHWord actHCrit">
+                    <label for="hook_multisel_mc_regio">Multiselect with optgroup</label>
+                </div>
+
+                <div class="hookInput actHInput actHICrit">
+                    <select name="match_2[]" id="optgroup1" multiple="multiple" size="5" placeholder="Custom placeholder">
+                        <optgroup label="German Cars" len>
+                            <option selected="selected" value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </optgroup>
+
+                        <optgroup label="Steden">
+                            <option label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
+                            <option label="Groningen" value="124482">Groningen</option>
+                            <option label="Hengelo" value="124483">Hengelo</option>
+                            <option label="Venlo" value="124484">Venlo</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="test test3">
+                <div class="hookWord actHWord actHCrit">
+                    <label for="hook_multisel_mc_regio">Single select with optgroup</label>
+                </div>
+
+                <div class="hookInput actHInput actHICrit">
+                    <select name="match_3[]" id="single1">
+                            <option selected="selected" value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+
+                        <optgroup label="Steden">
+                            <option label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
+                            <option label="Groningen" value="124482">Groningen</option>
+                            <option label="Hengelo" value="124483">Hengelo</option>
+                            <option label="Venlo" value="124484">Venlo</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="test test4">
+                <div class="hookWord actHWord actHCrit">
+                    <label for="hook_multisel_mc_regio">Single select with optgroup</label>
+                </div>
+
+                <div class="hookInput actHInput actHICrit">
+                    <select name="match_4[]" id="single2">
+                        <option selected="selected" disabled>Placeholder</option>
+
+                        <option value="mercedes">Mercedes</option>
                         <option value="audi">Audi</option>
 
-                    <optgroup label="Steden">
-                        <option label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
-                        <option label="Groningen" value="124482">Groningen</option>
-                        <option label="Hengelo" value="124483">Hengelo</option>
-                        <option label="Venlo" value="124484">Venlo</option>
-                    </optgroup>
-                </select>
+                        <optgroup label="Steden">
+                            <option label="Servicekantoor Bunnik" value="124481">Servicekantoor Bunnik</option>
+                            <option label="Groningen" value="124482">Groningen</option>
+                            <option label="Hengelo" value="124483">Hengelo</option>
+                            <option label="Venlo" value="124484">Venlo</option>
+                        </optgroup>
+                    </select>
+                </div>
             </div>
-        </div>
+
+            <div class="buttonContainer">
+                <input type="submit" value="Send" />
+            </div>
+        </form>
             
         <script src="otysselect.js"></script>
 
         <script>
-            $('#regio1, #optgroup1, #single1').otysselect();
+            var test = $('#regio1, #optgroup1, #single1, #single2').otysselect({
+                multiselect: {
+                    placeholder:  true
+                },
+                onInit: function(){
+                    console.log('init');
+                }
+            });
+
+            $('select').on('change', function(){
+                console.log('test');
+            });
+
 
         </script>
+
+        <style>
+            .otysselect select{
+                display: block !important;
+            }
+        </style>
     </body>
 </html>
